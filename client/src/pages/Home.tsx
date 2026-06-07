@@ -1,8 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Github, GitBranch, AlertCircle, Users, Code2, Zap } from "lucide-react";
+import { Github, GitBranch, AlertCircle, Users, Code2, Zap, Loader2 } from "lucide-react";
 import GitHubUserSearch from "@/components/GitHubUserSearch";
+import { useGitHubUser } from "@/hooks/useGitHubUser";
 
 /**
  * Design: Modern Developer Experience with Gradient Accents
@@ -14,6 +15,9 @@ import GitHubUserSearch from "@/components/GitHubUserSearch";
  */
 
 export default function Home() {
+  const OWNER_USERNAME = "l1mitss";
+  const { user: ownerData, loading: ownerLoading } = useGitHubUser(OWNER_USERNAME);
+
   const capabilities = [
     {
       icon: Github,
@@ -194,16 +198,62 @@ export default function Home() {
           </div>
 
           <div className="grid md:grid-cols-2 gap-6 mb-12">
-            {demoData.map((item, idx) => (
-              <Card key={idx} className="border-purple-500/20 bg-card/50 backdrop-blur-sm">
+            {ownerLoading ? (
+              <Card className="border-purple-500/20 bg-card/50 backdrop-blur-sm md:col-span-2">
                 <CardHeader>
-                  <CardDescription className="text-foreground/50">{item.label}</CardDescription>
-                  <CardTitle className="text-2xl bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
-                    {item.value}
-                  </CardTitle>
+                  <div className="flex items-center gap-2">
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    <CardDescription>Loading live data...</CardDescription>
+                  </div>
                 </CardHeader>
               </Card>
-            ))}
+            ) : ownerData ? (
+              <>
+                <Card className="border-purple-500/20 bg-card/50 backdrop-blur-sm">
+                  <CardHeader>
+                    <CardDescription className="text-foreground/50">User (Live)</CardDescription>
+                    <CardTitle className="text-2xl bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
+                      {ownerData.name || ownerData.login}
+                    </CardTitle>
+                  </CardHeader>
+                </Card>
+                <Card className="border-purple-500/20 bg-card/50 backdrop-blur-sm">
+                  <CardHeader>
+                    <CardDescription className="text-foreground/50">Repositories (Live)</CardDescription>
+                    <CardTitle className="text-2xl bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
+                      {ownerData.public_repos} public
+                    </CardTitle>
+                  </CardHeader>
+                </Card>
+                <Card className="border-purple-500/20 bg-card/50 backdrop-blur-sm">
+                  <CardHeader>
+                    <CardDescription className="text-foreground/50">Followers (Live)</CardDescription>
+                    <CardTitle className="text-2xl bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
+                      {ownerData.followers}
+                    </CardTitle>
+                  </CardHeader>
+                </Card>
+                <Card className="border-purple-500/20 bg-card/50 backdrop-blur-sm">
+                  <CardHeader>
+                    <CardDescription className="text-foreground/50">Following (Live)</CardDescription>
+                    <CardTitle className="text-2xl bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
+                      {ownerData.following}
+                    </CardTitle>
+                  </CardHeader>
+                </Card>
+              </>
+            ) : (
+              demoData.map((item, idx) => (
+                <Card key={idx} className="border-purple-500/20 bg-card/50 backdrop-blur-sm">
+                  <CardHeader>
+                    <CardDescription className="text-foreground/50">{item.label}</CardDescription>
+                    <CardTitle className="text-2xl bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
+                      {item.value}
+                    </CardTitle>
+                  </CardHeader>
+                </Card>
+              ))
+            )}
           </div>
 
           {/* Code Example */}
