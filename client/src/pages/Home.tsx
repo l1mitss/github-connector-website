@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Github, GitBranch, AlertCircle, Users, Code2, Zap } from "lucide-react";
+import GitHubUserSearch from "@/components/GitHubUserSearch";
 
 /**
  * Design: Modern Developer Experience with Gradient Accents
@@ -185,6 +186,11 @@ export default function Home() {
             <p className="text-foreground/70">
               Real data fetched from the GitHub connector
             </p>
+          </div>
+
+          {/* GitHub User Search Feature */}
+          <div className="mb-12">
+            <GitHubUserSearch />
           </div>
 
           <div className="grid md:grid-cols-2 gap-6 mb-12">
