@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Github, GitBranch, AlertCircle, Users, Code2, Zap, Loader2 } from "lucide-react";
 import GitHubUserSearch from "@/components/GitHubUserSearch";
+import RepositoryBrowser from "@/components/RepositoryBrowser";
 import { useGitHubUser } from "@/hooks/useGitHubUser";
 
 /**
@@ -279,6 +280,11 @@ export default function Home() {
               </div>
             </CardContent>
           </Card>
+
+          {/* Repository Browser Section */}
+          <div className="mt-16 pt-12 border-t border-purple-500/20">
+            <RepositoryBrowser username={OWNER_USERNAME} />
+          </div>
         </div>
       </section>
 
